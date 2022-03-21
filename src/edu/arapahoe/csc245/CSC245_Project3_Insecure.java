@@ -54,6 +54,7 @@ public class CSC245_Project3_Insecure {
 	}
 
 	public static String getTempForCity (String cityString, String api_key) {
+
 		String urlString = "http://api.openweathermap.org/data/2.5/weather?q=" +
 				cityString + "&appid=" + api_key + "&units=imperial";
 		try {
@@ -61,9 +62,10 @@ public class CSC245_Project3_Insecure {
 			URL url = new URL(urlString);
 			URLConnection conn = url.openConnection();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-			String line;
-			while ((line = rd.readLine()) != null)
-				result .append(line);
+			String line = rd.readLine();
+			// Solving Issue #6 by getting rid of null variable to help garbage collector
+			// while ((line = rd.readLine()) != null)
+			result .append(line);
 			System.out.println(result);
 
 			Map<String, Object > respMap = jsonToMap (result.toString());
@@ -79,19 +81,40 @@ public class CSC245_Project3_Insecure {
 	}
 
 	public static void main(String[] args) {
-		String owm = "",		// Include the API key here
-				LOCATION = "Castle Rock, US";
+
+		// Solving issue #3 by changing "owm" to "API" to better represent the value as a constant
+		String API = "";		// Include the API key here
+
+		// Solving issue #2 by separating variable declarations from String API, Location to String API, String LOCATION
+		String LOCATION = "Castle Rock, US";
+
+		// Solving Issue #1 by commenting out urlString to minimize its usage as it is only used in getTempForCity
+		/*
 		String urlString = "http://api.openweathermap.org/data/2.5/weather?q=" + LOCATION +
 				"&appid=" + owm + "&units=imperial";
+		*/
 
 		// The following line is out of scope for mitigation and can be ignored.
-//		System.out.println("URL invoked to get temperature data=" + urlString);
+		//System.out.println("URL invoked to get temperature data=" + urlString);
 
-		for (int i=0;i<10;i++);
-			System.out.println("Current temperature in " + LOCATION +" is: "
-					+ getTempForCity(LOCATION,owm) + " degrees.");
+		// Commented out for statement as leaving it would print out the desired output 9 extra times
+		/*
+			// Solving Issue #5 getting rid of semicolon placed after for condition
+			// Solving Issue #4 by adding braces to body of for statement
+		for (int i=0;i<10;i++) {
+			System.out.println("Current temperature in " + LOCATION + " is: "
+					+ getTempForCity(LOCATION, owm) + " degrees.");
 
-		urlString = "";
+			urlString = "";
+
+		// Solving Issue #4 by adding braces to body of for statement
+		}
+		*/
+
+		System.out.println("Current temperature in " + LOCATION + " is: " + getTempForCity(LOCATION, API) + " degrees.");
+
+		// Solving Issue #7 by adding Runtime.exit() (Shutdown Hook) to perform proper cleanup
+		Runtime.getRuntime().exit(1);
 
 	}
 
