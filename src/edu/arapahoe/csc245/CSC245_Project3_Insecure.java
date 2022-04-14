@@ -1,3 +1,8 @@
+// Ricardo Cadena
+// CSC245: Secure Software Development
+// Date: April 13, 2022
+// Intent: Print the weather and temperature of a given location via API Key
+
 package edu.arapahoe.csc245;
 
 import java.io.BufferedReader;
